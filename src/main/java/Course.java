@@ -61,7 +61,7 @@ public class Course {
             setDate = setDate.plusDays(1);
         }
 
-        if (currentDate.getDayOfWeek().getValue() < 6) {
+        if (currentDate.getDayOfWeek().getValue() < 6 && Course.isSameDay(setDate, currentDate)) {
             if (currentDate.getHour() <= 10) return courseHours * 60 + courseMins;
             else if (currentDate.getHour() < 18) {
                 courseHours += currentDate.getHour() - 10;
@@ -82,10 +82,10 @@ public class Course {
     public static String courseReport(int duration, int timeElapsed) {
         String tempString = "";
         if (duration > timeElapsed)
-            tempString = "Training is not finished. " + (duration - timeElapsed ) / 8 + " day/s and " +
-                    (duration - timeElapsed ) % 8 + " hours are left until the end of course.";
+            tempString = "Training is not finished. " + (duration - timeElapsed) / 8 + " day/s and " +
+                    (duration - timeElapsed) % 8 + " hours are left until the end of course.";
         else
-            tempString = "Trainig completed. " + (timeElapsed - duration ) / 8 + " working day/s and " + (timeElapsed - duration ) % 8 +
+            tempString = "Trainig completed. " + (timeElapsed - duration) / 8 + " working day/s and " + (timeElapsed - duration) % 8 +
                     " hours have passed since course was finished.";
         return tempString;
     }
@@ -97,14 +97,34 @@ public class Course {
             return false;
     }
 
+    public static LocalDateTime courseStartTime(LocalDateTime startDate){
+     LocalDateTime tempDate = startDate;
+     if (tempDate.getDayOfWeek().getValue() == 6 )
+         return tempDate.plusDays(2).withHour(10).withMinute(0);
+     else if (tempDate.getDayOfWeek().getValue() == 7 )
+         return tempDate.plusDays(1).withHour(10).withMinute(0);
+     else if (tempDate.getHour()<10)
+         return  tempDate.withHour(10).withMinute(0);
+     else if (tempDate.getHour()<18)
+         return tempDate;
+     else if (tempDate.getDayOfWeek().getValue() < 5)
+         return tempDate.plusDays(1).withHour(10).withMinute(0);
+     else return tempDate.plusDays(3).withHour(10).withMinute(0);
+    }
+    
     public static LocalDateTime courseEndTime(List<Course> courses, LocalDateTime startDate) {
         LocalDateTime tempDate = startDate;
         int hoursLeft = courseTimeDuration(courses);
+        if (tempDate.getHour() < 10)
+            tempDate = tempDate.withHour(10).withMinute(0);
+        else if (tempDate.getHour() >= 18)
+            tempDate = tempDate.plusDays(1).withHour(10).withMinute(0);
+
         while (hoursLeft > 0) {
             if (tempDate.getDayOfWeek().getValue() > 5)
-                tempDate = tempDate.plusDays(1);
+                tempDate = tempDate.plusDays(1).withHour(10).withMinute(0);
             else {
-                if (tempDate.getHour() <= 16)
+                if ((tempDate.getHour() < 17) || (tempDate.getHour() == 17 && tempDate.getMinute() == 0))
                     tempDate = tempDate.plusHours(1);
                 else if (tempDate.getDayOfWeek().getValue() == 5)
                     tempDate = tempDate.plusHours(17 + 48);

@@ -1,9 +1,11 @@
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class Execution {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        Scanner input2 = new Scanner(System.in);
 
         Student student1 = new Student("Ivanov Ivan", "Java developer", 3);
         Student student2 = new Student("Sidorov Ivan", "AQE", 3);
@@ -16,36 +18,51 @@ public class Execution {
         firstStudentCourses.add(new Course("Java", 8));
         firstStudentCourses.add(new Course("JDBC", 8));
         firstStudentCourses.add(new Course("Spring", 16));
-        secondStudentCourses.add(new Course("Test Design", 10));
-        secondStudentCourses.add(new Course("Page Object", 10));
-        secondStudentCourses.add(new Course("Selenium", 20));
-        thirdStudentCourses.add(new Course("Blender", 24));
-        thirdStudentCourses.add(new Course("Sculpting", 72));
-        thirdStudentCourses.add(new Course("Blender intro", 8));
-        thirdStudentCourses.add(new Course("Object preview", 8));
-        thirdStudentCourses.add(new Course("3D environment", 32));
+        secondStudentCourses.add(new Course("Test Design", 9));
+        secondStudentCourses.add(new Course("Page Object", 8));
+        secondStudentCourses.add(new Course("Selenium", 12));
+        thirdStudentCourses.add(new Course("Blender", 21));
+        thirdStudentCourses.add(new Course("Sculpting", 70));
+        thirdStudentCourses.add(new Course("Blender intro", 5));
+        thirdStudentCourses.add(new Course("Object preview", 9));
+        thirdStudentCourses.add(new Course("3D environment", 30));
         
         
         
 
-        LocalDateTime startTimeFirstStudent = LocalDateTime.of(2022, 10, 8, 13, 54);
-        LocalDateTime startTimeSecondStudent = LocalDateTime.of(2022, 10, 18, 13, 55);
-        LocalDateTime startTimeThirdStudent = LocalDateTime.of(2022, 10, 01, 11, 24);
+//        LocalDateTime startTimeFirstStudent = LocalDateTime.of(2022, 10, 8, 13, 54);
+//        LocalDateTime startTimeSecondStudent = LocalDateTime.of(2022, 10, 18, 13, 55);
+//        LocalDateTime startTimeThirdStudent = LocalDateTime.of(2022, 10, 01, 11, 24);
 
-
-        System.out.println(startTimeFirstStudent);
-        int student1CourseDurationInMinutes = Course.timeUntilCourseEnds(startTimeFirstStudent);
-        System.out.println(student1CourseDurationInMinutes);
-        int student2CourseDurationInMinutes = Course.timeUntilCourseEnds(startTimeSecondStudent);
-        System.out.println(student2CourseDurationInMinutes);
-        int student3CourseDurationInMinutes = Course.timeUntilCourseEnds(startTimeThirdStudent);
-        System.out.println(student3CourseDurationInMinutes);
-
+        System.out.println("Enter course start date in format YYYY/MM/d/h/m");
+        System.out.println("year");
+        int year = input.nextInt();
+        System.out.println("month");
+        int month = input.nextInt();
+        System.out.println("day");
+        int day = input.nextInt();
+        System.out.println("hour");
+        int hour = input.nextInt();
+        System.out.println("minute");
+        int minute = input.nextInt();
+        LocalDateTime startCourseDate = LocalDateTime.of(year, month, day, hour, minute);
+        isDateValid(year, month, day, hour, minute);  
+        
         System.out.println("Choose report type, type 0 for Short or anything else for Long report");
-        String reportType = input.nextLine();
+        String reportType = input2.nextLine();
 
-        Report.report(student1, firstStudentCourses, Student.report(reportType), startTimeFirstStudent);
-        Report.report(student2, secondStudentCourses, Student.report(reportType), startTimeSecondStudent);
-        Report.report(student3, thirdStudentCourses, Student.report(reportType), startTimeThirdStudent);
+        Report.report(student1, firstStudentCourses, Student.report(reportType), startCourseDate);
+        Report.report(student2, secondStudentCourses, Student.report(reportType), startCourseDate);
+        Report.report(student3, thirdStudentCourses, Student.report(reportType), startCourseDate);
+    }
+    
+    public static boolean isDateValid(int year, int month, int day, int hour, int min){
+        try{
+            LocalDateTime.of(year, month, day, hour, min);
+        } catch (Exception e){
+            System.out.println("Wrong date format");
+            return false;
+        }
+        return true;
     }
 }

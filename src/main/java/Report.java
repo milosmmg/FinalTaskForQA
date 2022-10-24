@@ -15,7 +15,7 @@ public class Report {
             System.out.println("Program name: " + student.getStudentOccupation());
             System.out.println("Program duration: " + Course.courseTimeDuration(course) / 8 + "d " + Course.courseTimeDuration(course) % 8 + "h");
             System.out.println("Program duration in hours: " + Course.courseTimeDuration(course));
-            System.out.println("Start date: " +time);
+            System.out.println("Start date: " +Course.courseStartTime(time));
             System.out.println("End date: " + Course.courseEndTime(course, time));
             System.out.println(Course.courseReport(Course.courseTimeDuration(course), Course.timeUntilCourseEnds(time)/60));
         }
