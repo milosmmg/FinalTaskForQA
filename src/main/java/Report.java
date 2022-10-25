@@ -7,7 +7,7 @@ public class Report {
         
         if (reportType.equals("Short")) {
             System.out.println(student.getStudentName() + " ( " + student.getStudentOccupation() +
-                    " ) " + Course.courseReport(Course.courseTimeDuration(course), Course.timeUntilCourseEnds(time)/60));
+                    " ) " + Course.courseReport(Course.courseTimeDuration(course), Course.timeUntilCourseEnds(time)/60)+ "\n");
         }
         else if (reportType.equals("Long")) {
             System.out.println("Student name: " + student.getStudentName());
@@ -17,7 +17,7 @@ public class Report {
             System.out.println("Program duration in hours: " + Course.courseTimeDuration(course));
             System.out.println("Start date: " +Course.courseStartTime(time));
             System.out.println("End date: " + Course.courseEndTime(course, time));
-            System.out.println(Course.courseReport(Course.courseTimeDuration(course), Course.timeUntilCourseEnds(time)/60));
+            System.out.println(Course.courseReport(Course.courseTimeDuration(course), Course.timeUntilCourseEnds(time)/60) + "\n");
         }
     }
 

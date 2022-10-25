@@ -26,28 +26,16 @@ public class Execution {
         thirdStudentCourses.add(new Course("Blender intro", 5));
         thirdStudentCourses.add(new Course("Object preview", 9));
         thirdStudentCourses.add(new Course("3D environment", 30));
-        
-        
-        
+
 
 //        LocalDateTime startTimeFirstStudent = LocalDateTime.of(2022, 10, 8, 13, 54);
 //        LocalDateTime startTimeSecondStudent = LocalDateTime.of(2022, 10, 18, 13, 55);
 //        LocalDateTime startTimeThirdStudent = LocalDateTime.of(2022, 10, 01, 11, 24);
 
         System.out.println("Enter course start date in format YYYY/MM/d/h/m");
-        System.out.println("year");
-        int year = input.nextInt();
-        System.out.println("month");
-        int month = input.nextInt();
-        System.out.println("day");
-        int day = input.nextInt();
-        System.out.println("hour");
-        int hour = input.nextInt();
-        System.out.println("minute");
-        int minute = input.nextInt();
-        LocalDateTime startCourseDate = LocalDateTime.of(year, month, day, hour, minute);
-        isDateValid(year, month, day, hour, minute);  
-        
+        LocalDateTime startCourseDate = LocalDateTime.of(input.nextInt(), input.nextInt(), input.nextInt(), input.nextInt(), input.nextInt());
+        isDateValid(startCourseDate); 
+
         System.out.println("Choose report type, type 0 for Short or anything else for Long report");
         String reportType = input2.nextLine();
 
@@ -55,11 +43,11 @@ public class Execution {
         Report.report(student2, secondStudentCourses, Student.report(reportType), startCourseDate);
         Report.report(student3, thirdStudentCourses, Student.report(reportType), startCourseDate);
     }
-    
-    public static boolean isDateValid(int year, int month, int day, int hour, int min){
-        try{
-            LocalDateTime.of(year, month, day, hour, min);
-        } catch (Exception e){
+
+    public static boolean isDateValid(LocalDateTime time) {
+        try {
+            LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute());
+        } catch (Exception e) {
             System.out.println("Wrong date format");
             return false;
         }
